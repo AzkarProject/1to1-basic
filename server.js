@@ -11,12 +11,9 @@ ipaddress =  "127.0.0.1"; // défaut
 port =  80; // défaut
 
 // Machines windows
-if (hostName == "azcary") {
-	ipaddress = "localhost"; // Machine HP bureau >> localhost pour les scripts autoIt
-	port = 2000 ; // idem, pour ne pas réecrire tous les scripts autoIt basés sur ce port et cette IP...
-}
-else if (hostName == "thaby") ipaddress = "192.168.173.1"; // Tablette HP sur Robulab: ip du réseau virtuel robulab_wifi
-
+if (hostName == "azcary") {ipaddress = "localhost";port = 2000 ;}
+else if (hostName == "thaby") ipaddress = "192.168.173.1"; // Tablette HP & wifi ad Hoc
+else if (hostName == "azkar-Latitude-E4200") ipaddress = "0.0.0.0"; // Serveur Ubuntu - noip > azkar.ddns.net
  
 var app = require('express')(),
     server = require('http').createServer(app),
@@ -64,7 +61,7 @@ server.listen(app.get('port'), ipaddress);
 // Adresse de redirection pour les connexions refusées
 var indexUrl;
 indexUrl = "http://" + ipaddress + ":" + port; // Par défaut...
-if (hostName == "azkar-Latitude-E4200") indexUrl = "http://" + dyDns; // Si machine derrière liveBox && noip
+if (hostName == "azkar-Latitude-E4200") indexUrl = "http://" + dyDns; // Si machine Ubuntu && noip
 
 
 // liste des clients connectés
