@@ -1,0 +1,39 @@
+<html>
+<head>
+
+	
+</head>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name='keywords' content='WebRTC, HTML5, JavaScript' />
+		<meta name='description' content='WebRTC benchmarks base for AZKAR project' />
+		<!-- viewport sert a controler la mise en page sur les appareils mobiles -->
+		<meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1'>
+		<link rel="stylesheet" href="/css/style.css" />
+        <title>1to1-basic-demo</title>
+    </head>
+
+
+<body>
+
+    <strong><info id="zone_info_server"></info></strong>
+    <hr/>
+    
+    <p><a href="/clientA/"> >>> client A (Pilot)</a></p>
+    <p><a href="/clientB/"> >>> client B (Robot)</a></p>
+    
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/js/common_settings.js"></script>
+	<script>                    
+            // On récupère depuis nodejs le nom de la machine serveur
+            // en passant par de l'AJAX plutôt que par websocket....
+            hostName = "???";    
+            $.get( "/getvar", function( data ) {
+              hostName = data.hostName;
+              infoServerTxt = settings.appBranch() + ' - ' + settings.appName() + " V " + settings.appVersion()+ " ("+hostName+")";
+              if (hostName != "???" ) $('#zone_info_server').replaceWith(infoServerTxt);
+            });
+    </script>	
+</body>
+</html>

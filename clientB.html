@@ -1,0 +1,142 @@
+<html>
+<head>
+
+	
+</head>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name='keywords' content='WebRTC, HTML5, JavaScript' />
+		<meta name='description' content='WebRTC benchmarks base for AZKAR project' />
+		<!-- viewport sert a controler la mise en page sur les appareils mobiles -->
+		<meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1'>
+		<link rel="stylesheet" href="/css/style.css" />
+        <title>WebRTC AZKAR</title>
+    </head>
+
+
+<body class="ihmRobot">
+
+    <strong><span id="zone_info_server">WebRTC AZKAR</span></strong>
+    <hr/>
+		
+		<section id="bloc_1to1_messages" class="fullSizeContainerBox">
+				
+			<div id="websocketChat" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox">  
+				
+			    <form action="/" method="post" id="formulaire_chat_websoket" style="text-align:center" >
+			        <strong>Websocket Chat & Logs&nbsp;</strong>
+		            <input type="text" name="message" id="message" placeholder="Votre message..." size="28" autofocus />
+		            <button id="env_msg_ws" type="submit" >Envoyer</button>
+		        </form>
+		        <hr class="hrForm">
+			 	<textarea class="input" style="width:100%" id="zone_chat_websocket" placeholder="Once upon a time..."></textarea>
+				<hr class="hrForm">
+				<form id="text-options1" style="text-align:center">
+            		<label>Filename: <input type="text1" class="filename" id="text-filename1" placeholder="Robot_WS_LOGS"/>.txt</label>
+            		<button id="saveLogs_webSocket" type="submit" value="Save"/>Save</button>
+        		</form>
+			</div>
+
+      		<div id="dataChannelArea" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox"> 
+			        
+			   <div id="formulaire_chat_webRTC" class="pseudoForm" style="text-align:center">
+			        <strong>WebRTC Chat & Logs&nbsp;</strong>
+		            <input type="text" name="message" id="input_chat_WebRTC" disabled placeholder="Waiting open channel..." size="28" autofocus />
+		            <button id="env_msg_WebRTC" disabled onclick="sendMessage()">Envoyer</button>
+			   </div>
+			    <hr class="hrForm">
+				<textarea class="input" id="zone_chat_WebRTC" style="width:100%" placeholder="Once upon a time..."></textarea>
+				<hr class="hrForm">
+				<form id="text-options2" style="text-align:center">
+	            	<label>Filename: <input type="text" class="filename" id="text-filename2" placeholder="Robot_webRTC_LOGS"/>.txt</label>
+	            	<button id="saveLogs_webRTC" type="submit" value="Save"/>Save</button>
+	        	</form>
+	      		
+
+	      	</div>
+
+
+		</section>		
+				
+
+
+
+		<section id="bloc_1toN" class="fullSizeContainerBox">
+			
+			<div  class="floatLeft oneQuarterContainerBox">
+				<div id="piloteCam" class="insideFlex pilote shadowBlack">
+				    <strong> Pilot Camera</strong>
+				    <hr/>
+				    <video id='otherPeer' autoplay muted controls="controls" ></video>
+		  	 	</div>
+			</div>
+		
+
+			<div  class="floatLeft oneQuarterContainerBox">
+				<div id="robotCam" class="insideFlex robot shadowBlack">
+				    <strong> Robot Camera</strong>
+				    <hr/>
+				    <video id='video' autoplay muted controls="controls"></video>
+		  	 	</div>
+			</div>
+
+
+		</section>
+
+		<section id="bloc_1to1_settings" class="fullSizeContainerBox">
+
+
+				<div id="selectionMicros" class="insideFlex robot shadowBlack floatLeft oneThirdContainerBox"> 
+				  	<span id="messageDevicesStateMicro"> Micros disponibles</span>
+					<hr/>
+					<div class="select">
+						<select id="local_audioSource"></select>
+					</div>
+				</div>	
+
+
+				<div id="selectionCams" class="insideFlex robot shadowBlack floatLeft oneThirdContainerBox"> 
+				  	<span id="messageDevicesStateCams"> Caméras disponibles</span>
+					<hr/>
+					<div class="select">
+					   	<select id="local_videoSource"></select>
+					</div>
+				</div>
+
+		</section>
+
+		
+	
+       	<script>	  	 
+		var otherType = "pilote-typeA";
+		var type = "robot-typeB";
+		</script>
+ 		
+ 		<script src="/socket.io/socket.io.js"></script>
+        <script src='/js/lib/jquery-1.10.1.min.js'></script>
+        <script src='/js/lib/adapter.js'></script>
+		<script src="/js/lib/FileSaver.js"></script>
+        
+        <script src="/js/common_tools.js"></script>
+        <script src="/js/common_settings.js"></script>
+        <script src="/js/module_logs.js"></script>
+ 		
+ 		<script src='/js/main_websocket.js'></script>
+ 		<script src="/js/main_preSignaling.js"></script>
+ 		<script src='/js/main_1to1.js'></script>
+		
+		<script>                    
+            // On récupère depuis nodejs le nom de la machine serveur
+            // en passant par de l'AJAX plutôt que par websocket....
+            hostName = "???";    
+            $.get( "/getvar", function( data ) {
+              hostName = data.hostName;
+              //if (hostName != "???" ) $('#zone_info_server').replaceWith(settings.appName() + " V " + settings.appVersion()+ " ("+hostName+")");
+              infoServerTxt = settings.appBranch() + ' - ' + settings.appName() + " V " + settings.appVersion()+ " ("+hostName+")";
+              if (hostName != "???" ) $('#zone_info_server').replaceWith(infoServerTxt);
+            });
+		</script>
+
+</body>
+</html>

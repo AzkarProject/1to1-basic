@@ -1,0 +1,145 @@
+<html>
+
+<head>
+</head>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name='keywords' content='WebRTC, HTML5, JavaScript' />
+    <meta name='description' content='WebRTC benchmarks base for AZKAR project' />
+    <!-- viewport sert a controler la mise en page sur les appareils mobiles -->
+    <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1'>
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>WebRTC AZKAR</title>
+</head>
+
+<body class="ihmPilote">
+    <strong><span id="zone_info_server">WebRTC AZKAR</span></strong>
+    <hr/>
+    
+
+    <section id="controlArea" class="fullSizeContainerBox">
+        <div id="colGaucheHaut" class="floatLeft oneQuarterContainerBox">
+            
+            
+            
+            <div id="robotDevices" class="insideFlex oneQuarterbox robot shadowBlack device">
+                <strong>Robot Devices</strong>
+                <hr/>
+                <div class="select">
+                    <label for="remote_audioSource">Audio: </label>
+                    <select id="remote_audioSource"></select>
+                </div>
+                <div class="select">
+                    <label for="remote_videoSource">Video: </label>
+                    <select id="remote_videoSource"></select>
+                </div>
+                <hr/>
+                <button id="remote_ButtonDevices" onclick="remoteManageDevices()">Sélectionner</button>
+            </div>
+        
+           
+            <div id="piloteDevices" class="insideFlex oneQuarterbox pilote shadowBlack device">
+                <strong> Local View</strong>
+                <hr/>
+                <video id='video' autoplay muted controls="controls"></video>
+                
+                <hr/>
+                <div class="select">
+                    <label for="local_audioSource">Audio: </label>
+                    <select id="local_audioSource"></select>
+                </div>
+                <div class="select">
+                    <label for="local_videoSource">Video: </label>
+                    <select id="local_videoSource"></select>
+                </div>
+                <hr/>
+                <button class="shadowBlack" id="local_ButtonDevices" onclick="localManageDevices()">Ouvrir la connexion</button>
+                
+            </div>
+            
+            <div id="remoteVideoArea" class="insideFlex robot oneQuarterbox shadowBlack floatRight">
+                <strong> Remote View</strong>
+                <hr/>
+                <video id='otherPeer' class="" autoplay muted controls="controls"></video>
+            </div>
+
+        </div>
+
+        <div id="colDroiteMiddle" class="floatLeft oneThirdContainerBox">
+            
+            <div id="websocketChat" class="insideFlex pilote oneThirdBox shadowBlack floatLeft">
+                <strong> Websocket Messages & Chat</strong>
+                <hr/>
+                <form action="/" method="post" id="formulaire_chat_websoket">
+                    <input type="text" name="message" id="message" placeholder="Votre message..." size="28" autofocus />
+                    <button id="envoi_message" type="submit">Envoyer</button>
+                </form>
+                <hr class="hrForm">
+                <textarea class="input" id="zone_chat_websocket" placeholder="Once upon a time..."></textarea>
+                <form id="text-options1">
+                    <label>Filename:
+                        <input type="text1" class="filename" id="text-filename1" placeholder="Pilote_WS_LOGS" />.txt</label>
+                    <button id="saveLogs_webSocket" type="submit" value="Save" />Save</button>
+                </form>
+            </div>
+       
+
+            <div id="dataChannelArea" class="insideFlex pilote shadowBlack floatLeft oneThirdBox">
+                <strong> WebRTC dataChannel Log </strong>
+                <hr/>
+                <div id="formulaire_chat_webRTC" class="pseudoForm">
+                    <input type="text" name="message" id="input_chat_WebRTC" disabled placeholder="Waiting open channel..." size="28" autofocus />
+                    <button id="env_msg_WebRTC" disabled onclick="sendMessage()">Envoyer</button>
+                </div>
+                <hr class="hrForm">
+                <textarea class="input" id="zone_chat_WebRTC" placeholder="Once upon a time..."></textarea>
+                <form id="text-options2">
+                    <label>Filename:
+                        <input type="text" class="filename" id="text-filename2" placeholder="Pilote_WebRTC_LOGS" />.txt</label>
+                    <button id="saveLogs_webRTC" type="submit" value="Save" />Save</button>
+                </form>
+            </div>
+        
+    
+
+
+        </div>
+        
+
+    </section>
+    <script>
+    //var type = "appelant";
+    var type = "pilote-typeA";
+    var otherType = "robot-typeB";
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='/js/lib/jquery-1.10.1.min.js'></script>
+    <script src='/js/lib/adapter.js'></script>
+    <script src="/js/lib/FileSaver.js"></script>
+    
+    <script src="/js/common_tools.js"></script>
+    <script src="/js/common_settings.js"></script>    
+    
+    <script src="/js/module_logs.js"></script>
+
+    <script src='/js/main_websocket.js'></script>
+    <script src="/js/main_preSignaling.js"></script>
+    <script src='/js/main_1to1.js'></script>
+       
+    
+    <script>                    
+            // On récupère depuis nodejs le nom de la machine serveur
+            // en passant par de l'AJAX plutôt que par websocket....
+            hostName = "???";    
+            $.get( "/getvar", function( data ) {
+              hostName = data.hostName;
+              //if (hostName != "???" ) $('#zone_info_server').replaceWith(settings.appName() + " V " + settings.appVersion()+ " ("+hostName+")");
+              infoServerTxt = settings.appBranch() + ' - ' + settings.appName() + " V " + settings.appVersion()+ " ("+hostName+")";
+              if (hostName != "???" ) $('#zone_info_server').replaceWith(infoServerTxt);
+            });
+    </script>   
+</body>
+
+</html>
