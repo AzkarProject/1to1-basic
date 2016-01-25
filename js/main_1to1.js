@@ -48,8 +48,8 @@ function mainSettings() {
     // DEBUG STUN/TURN: 
     
     server = {'iceServers': []}; 
-    // Sans STUN
-
+    
+    // Sans STUN ni TURN
     // >>> AZCARY / Azcary(Filaire-I3S) / >>>>> OK !
     // >>> AZCARY / Azcary(Filaire-I3S) <> Thaby(AdHoc) / >>> OK ! 
     // >>> DDNS / Azcary(Filaire-I3S) / >>>>> OK ! 
@@ -75,13 +75,13 @@ function mainSettings() {
     // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
     // server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
     // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
     
     // Avec TURN (sans STUN)
     // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / all turns >>> OK !
     // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / anyfirewall.tcp >>> iceConnectionState > failed (main-1to1.js:241)
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.tcp 
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.tcp >>> OK !
     // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.udp
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / all turns >>> iceConnectionState > failed (main-1to1.js:241)
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
