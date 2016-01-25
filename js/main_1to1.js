@@ -62,10 +62,10 @@ function mainSettings() {
     
     // Avec STUN
     server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
-    // server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
-    // server.iceServers.push({url: 'stun:turn1.xirsys.com'});
+    server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
+    server.iceServers.push({url: 'stun:turn1.xirsys.com'});
 
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:230)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> >>> iceConnectionState > failed (main-1to1.js:241)
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
     // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
     // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
