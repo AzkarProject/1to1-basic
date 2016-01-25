@@ -47,27 +47,38 @@ function mainSettings() {
     
     // DEBUG STUN/TURN: 
     
-    // Tests sans Stun ni TURN
-    // >>> Sur même machine (HP filaire ): OK !
-    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
-    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
-    // >>> Sur ddns (HP filaire + ASUS wifi):
-    // >>> Sur ddns (HP filaire + Dell Filaire): 
-    // >>> Sur ddns (HP filaire + Dell Wifi): 
-
-    
     server = {'iceServers': []}; 
+    // Sans STUN
 
-    // Avec STUN seulement
-    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
-    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
-    // >>> Sur ddns (HP filaire + ASUS wifi):
-    // >>> Sur ddns (HP filaire + Dell Filaire): 
-    // >>> Sur ddns (HP filaire + Dell Wifi): 
+    // >>> AZCARY / Azcary(Filaire-I3S) / >>>>> OK !
+    // >>> AZCARY / Azcary(Filaire-I3S) <> Thaby(AdHoc) / >>> OK ! 
+    // >>> DDNS / Azcary(Filaire-I3S) / >>>>> OK ! 
+    // >>> DDNS / Azcary(Filaire-I3S) <> Occulus(Filaire-I3S) / >>>>> OK ! 
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:230)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
+
     
-    // server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
+    // Avec STUN
+    server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
     // server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
     // server.iceServers.push({url: 'stun:turn1.xirsys.com'});
+
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:230)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
+
+
+
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:230)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
+    
+
+
 
 
     // Avec TURN seulement
