@@ -73,7 +73,7 @@ function mainSettings() {
     // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
 
     // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
-    // server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
+    server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
     // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
