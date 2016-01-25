@@ -61,40 +61,40 @@ function mainSettings() {
     // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
 
     
-    // Avec STUN
-    server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
+    // Avec STUN (Sans TURN)
+    // server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
     // server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
     // server.iceServers.push({url: 'stun:turn1.xirsys.com'});
 
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> ??
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> OK !
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:241)
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
     // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
     // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
 
-
-
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:230)
+    // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
+    server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
+    // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
+    
+    // Avec TURN (sans STUN)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> ????
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> ????
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
     // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
     // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
-    
+
+    // Avec STUN + TURN
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> ????
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> ????
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
 
 
 
 
-    // Avec TURN seulement
-    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
-    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
-    // >>> Sur ddns (HP filaire + ASUS wifi):
-    // >>> Sur ddns (HP filaire + Dell Filaire): 
-    // >>> Sur ddns (HP filaire + Dell Wifi): 
-
-    // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
-    // server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
-    // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
 
 
 
