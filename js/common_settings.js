@@ -1,7 +1,7 @@
 (function(exports){
 
 exports.appName = function(){
-    return '1to1-basic';
+    return '1to1-basic (turn only/all)';
 };
 
 exports.appVersion = function(){
