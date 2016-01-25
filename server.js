@@ -11,7 +11,8 @@ ipaddress =  "127.0.0.1"; // défaut
 port =  80; // défaut
 
 // Machines windows
-if (hostName == "azcary") {ipaddress = "localhost";port = 2000 ;}
+//if (hostName == "azcary") {ipaddress = "localhost";port = 2000 ;}
+if (hostName == "azcary") ipaddress = "192.168.173.1"; // Tablette HP & wifi ad Hoc
 else if (hostName == "thaby") ipaddress = "192.168.173.1"; // Tablette HP & wifi ad Hoc
 else if (hostName == "azkar-Latitude-E4200") ipaddress = "0.0.0.0"; // Serveur Ubuntu - noip > azkar.ddns.net
  

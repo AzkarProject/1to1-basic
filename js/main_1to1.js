@@ -30,48 +30,63 @@ function mainSettings() {
     // Zone de saisie (input)
     message = document.getElementById("input_chat_WebRTC");
 
-    // options pour l'objet PeerConnection
-    server = {
-        'iceServers': [{
-            'url': 'stun:23.21.150.121'
-        }]
-    };
-    server.iceServers.push({
-        url: 'stun:stun.l.google.com:19302'
-    });
-    server.iceServers.push({
-        url: 'stun:stun.anyfirewall.com:3478'
-    });
-    server.iceServers.push({
-        url: 'stun:turn1.xirsys.com'
-    });
+    /*// options pour l'objet PeerConnection
+    server = {'iceServers': [{'url': 'stun:23.21.150.121'}]};
+    server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
+    server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
+    server.iceServers.push({url: 'stun:turn1.xirsys.com'});
     // Ajout de serveurs TURN
-    server.iceServers.push({
-        url: "turn:turn.bistri.com:80",
-        credential: "homeo",
-        username: "homeo"
-    });
-    server.iceServers.push({
-        url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-        credential: 'webrtc',
-        username: 'azkarproject'
-    });
-    server.iceServers.push({
-        url: "turn:numb.viagenie.ca",
-        credential: "webrtcdemo",
-        username: "temp20fev2015@gmail.com"
-    });
-    server.iceServers.push({
-        url: "turn:turn.anyfirewall.com:443?transport=tcp",
-        credential: "webrtc",
-        username: "webrtc"
-    });
-    server.iceServers.push({
-        url: "turn:turn1.xirsys.com:443?transport=tcp",
-        credential: "b8631283-b642-4bfc-9222-352d79e2d793",
-        username: "e0f4e2b6-005f-440b-87e7-76df63421d6f"
-    });
+    server.iceServers.push({url: "turn:turn.bistri.com:80",credential: "homeo",username: "homeo"});
+    server.iceServers.push({url: 'turn:turn.anyfirewall.com:443?transport=tcp',credential: 'webrtc',username: 'azkarproject'});
+    server.iceServers.push({url: "turn:numb.viagenie.ca",credential: "webrtcdemo",username: "temp20fev2015@gmail.com"});
+    server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
+    server.iceServers.push({url: "turn:turn1.xirsys.com:443?transport=tcp",credential: "b8631283-b642-4bfc-9222-352d79e2d793",username: "e0f4e2b6-005f-440b-87e7-76df63421d6f"});
+    /**/
 
+    // options pour l'objet PeerConnection
+    
+    // DEBUG STUN/TURN: 
+    
+    // Tests sans Stun ni TURN
+    // >>> Sur même machine (HP filaire ): OK !
+    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
+    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
+    // >>> Sur ddns (HP filaire + ASUS wifi):
+    // >>> Sur ddns (HP filaire + Dell Filaire): 
+    // >>> Sur ddns (HP filaire + Dell Wifi): 
+
+    
+    server = {'iceServers': []}; 
+
+    // Avec STUN seulement
+    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
+    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
+    // >>> Sur ddns (HP filaire + ASUS wifi):
+    // >>> Sur ddns (HP filaire + Dell Filaire): 
+    // >>> Sur ddns (HP filaire + Dell Wifi): 
+    
+    // server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
+    // server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
+    // server.iceServers.push({url: 'stun:turn1.xirsys.com'});
+
+
+    // Avec TURN seulement
+    // >>> Sur wifi HadHOc (HP filaire + Dell Filaire):
+    // >>> Sur wifi HadHOc (HP filaire + Dell Wifi):
+    // >>> Sur ddns (HP filaire + ASUS wifi):
+    // >>> Sur ddns (HP filaire + Dell Filaire): 
+    // >>> Sur ddns (HP filaire + Dell Wifi): 
+
+    // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
+    // server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"});
+    // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
+
+
+
+
+    /*
     options = {
         optional: [{
                 DtlsSrtpKeyAgreement: true
@@ -80,6 +95,9 @@ function mainSettings() {
             } 
         ]
     }
+    /**/
+
+     options = { optional: [{DtlsSrtpKeyAgreement: true }]};
 
     // Création de l'objet PeerConnection (CAD la session de connexion WebRTC)
     pc = new PeerConnection(server, options);
