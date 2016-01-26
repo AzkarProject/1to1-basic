@@ -70,8 +70,13 @@ function mainSettings() {
     // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
-    server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
-    server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
+    // On teste le serveur RESTUND (en basique (sans authentification))
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
+
+
+    //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
+    //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
     // server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tls",credential: "webrtc",username: "webrtc"});
     
 
