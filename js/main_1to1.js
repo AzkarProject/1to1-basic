@@ -57,9 +57,9 @@ function mainSettings() {
     // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> iceConnectionState > failed (main-1to1.js:241)
     
     // Avec STUN (Sans TURN)
-    server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
-    server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
-    server.iceServers.push({url: 'stun:turn1.xirsys.com'});
+    // server.iceServers.push({url: 'stun:stun.l.google.com:19302'});
+    // server.iceServers.push({url: 'stun:stun.anyfirewall.com:3478'});
+    // server.iceServers.push({url: 'stun:turn1.xirsys.com'});
 
     // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> OK !
     // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> iceConnectionState > failed (main-1to1.js:241)
@@ -71,8 +71,8 @@ function mainSettings() {
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
     // On teste le serveur RESTUND (en basique (sans authentification))
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
 
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
