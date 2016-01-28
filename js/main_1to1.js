@@ -71,9 +71,12 @@ function mainSettings() {
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
     // On teste le serveur RESTUND (en basique (sans authentification))
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
-
+    
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
+    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
+    
+    server.iceServers.push({url: "turn:5.196.67.153:3478?transport=tcp"});
+    server.iceServers.push({url: "turn:5.196.67.153:3478?transport=udp"}); 
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
