@@ -16,8 +16,9 @@ function mainSettings() {
     PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
     SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
     IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
+    // Voir évolution de la norme pour getUserMedia:
+    // https://developers.google.com/web/updates/2015/10/media-devices
     navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-
 
     // Eléments videos du document html
     video1 = document.getElementById("video");
@@ -46,7 +47,6 @@ function mainSettings() {
     // options pour l'objet PeerConnection
     
     // DEBUG STUN/TURN: 
-    
     server = {'iceServers': []}; 
     
     // Sans STUN ni TURN
@@ -72,11 +72,11 @@ function mainSettings() {
     // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
     // On teste le serveur RESTUND (en basique (sans authentification))
     
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"});
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); 
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"}); // RESTUND sur VM2
+    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); // RESTUND sur VM2
     
-    server.iceServers.push({url: "turn:5.196.67.153:3478?transport=tcp"});
-    server.iceServers.push({url: "turn:5.196.67.153:3478?transport=udp"}); 
+    // server.iceServers.push({url: "turn:5.196.67.153:3478?transport=tcp"}); // RESTUND chez Hugo (OVH)
+    // server.iceServers.push({url: "turn:5.196.67.153:3478?transport=udp"}); // RESTUND chez Hugo (OVH)
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
@@ -120,7 +120,7 @@ function mainSettings() {
     }
     /**/
 
-     options = { optional: [{DtlsSrtpKeyAgreement: true }]};
+    options = { optional: [{DtlsSrtpKeyAgreement: true }]};
 
     // Création de l'objet PeerConnection (CAD la session de connexion WebRTC)
     pc = new PeerConnection(server, options);
@@ -139,10 +139,6 @@ function mainSettings() {
     channel = null;
     debugNbConnect = 0;
 
-    // Si une renégociation à déjas eu lieu
-    // >> pour éviter de réinitialiser +sieurs fois le même écouteur
-    // isRenegociate = false;
-
     // Etat des clients pour le signaling
     piloteCnxStatus = pc.iceConnectionState;
     robotCnxStatus = pc.iceConnectionState;
@@ -153,6 +149,7 @@ mainSettings();
 
 //------ Phase 1 Pé-signaling ----------------------------------------------------------
 
+
 // rejectConnexion', message:message, url:indexUrl);
 socket.on('error', errorHandler);
 socket.on('rejectConnexion', function(data) {
@@ -160,14 +157,19 @@ socket.on('rejectConnexion', function(data) {
 })
 
 
-// Lancement de la récupération des Devices disponibles
-if (typeof MediaStreamTrack === 'undefined') {
-    alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
-} else {
-    origin = "local"; // On prévient la fonction apellée que la source sera locale
-    MediaStreamTrack.getSources(gotSources);
-}
-
+// Récupération de la liste des devices (Version2)
+// Voir: https://www.chromestatus.com/feature/4765305641369600
+// MediaStreamTrack.getSources(gotSources) utilisée jusqu'a présent n'est implémentée que dans Chrome.
+// La page https://developers.google.com/web/updates/2015/10/media-devices indique qu'à partir de la version 47
+// sont implémentées de nouvelles méthodes crossBrowser: navigator.mediaDevices.enumerateDevices().
+// Je passe donc par une méthode passerelle getAllAudioVideoDevices() qui switche entre les 2 méthodes
+// selon les implémentation du navigateur.
+var origin = "local"; // On prévient la fonction apellée que la source sera locale
+getAllAudioVideoDevices(function(result) {
+    populateListDevices(result,origin);
+}, function(error) {
+    alert(error);
+});
 
 // ---- Phase 2 Signaling --------------------------------------------------
 
@@ -207,9 +209,6 @@ function initLocalMedia() {
                 message: "ready"
             });
         }
-
-
-
         pc.addStream(localStream);
         connect();
 
@@ -252,6 +251,8 @@ function connect() {
 
         console.log(">>> iceConnectionState > " + pc.iceConnectionState);
         $(chatlog).prepend(tools.humanDateER("") + ' [iceConnectionState] ' + pc.iceConnectionState + '\n');
+        //console.log(localStream.active);
+        //console.log(remoteStream.active);
 
         // On informe l'autre pair de son statut de connexion   
         if (type == 'pilote-typeA') {
@@ -365,14 +366,12 @@ socket.on("offer", function(data) {
 
 // Réception d'une réponse à une offre
 socket.on("answer", function(data) {
-        
         console.log ("------------ >>> Receive Answer "+tools.humanDateER(""));
         pc.setRemoteDescription(new SessionDescription(data.message));
 });
 
 // Réception d'un ICE Candidate
 socket.on("candidate", function(data) {
-
         console.log ("------------ >>>> Receive Candidate ");
         pc.addIceCandidate(new IceCandidate(data.message)); // OK
 });

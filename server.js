@@ -19,6 +19,7 @@ else if (hostName == "AZKAR-1") ipaddress = "134.59.130.143"; // IP statique de 
 else if (hostName == "AZKAR-2") ipaddress = "134.59.130.142"; // IP statique de la VM2 sparks
 
 
+/*// HTTP ---------------
 var app = require('express')(),
     server = require('http').createServer(app),
     //server = require('https').createServer(app),
@@ -30,6 +31,43 @@ var express = require('express');
 
 // affectation du port
 app.set('port', port);
+
+/**/// fin HTTP -------------------------
+
+// HTTPS --------------------
+// HTTPS ---------------------------
+
+var fs = require('fs');
+var express = require('express');
+var https = require('https');
+var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
+
+var key = fs.readFileSync('./ssl/hacksparrow-key.pem');
+var cert = fs.readFileSync('./ssl/hacksparrow-cert.pem');
+// A chaque serveur son certificat avec l'URL proprement indiquée
+// pour importer et enregistrer le certificat coté client
+// et ne plus avoir à autoriser la connexion a chaque foi... 
+if (hostName == "azcary") { 
+	key = fs.readFileSync('./ssl/azcary-key.pem');
+	cert = fs.readFileSync('./ssl/azcary-cert.pem');	
+} else if (hostName == "AZKAR-1") {
+	key = fs.readFileSync('./ssl/vm-azkar1-key.pem');
+	cert = fs.readFileSync('./ssl/vm-azkar1-cert.pem');	
+}
+
+var https_options = {
+    key: key,
+    cert: cert
+};
+
+var PORT = port;
+var HOST = ipaddress;
+app = express();
+
+server = https.createServer(https_options, app).listen(PORT, HOST);
+console.log('HTTPS Server listening on %s:%s', HOST, PORT);
+
+// fin HTTPS -------------------
 
 // Pour que nodejs puisse servir correctement 
 // les dépendances css du document html
@@ -55,9 +93,14 @@ app.get("/getvar", function(req, res){
     res.json({ hostName: hostName });
 });
 
-
+/*// HTTP ---------------
 // Lancement du serveur
 server.listen(app.get('port'), ipaddress);
+/**/// fin HTTP -----------
+
+// HTTPS ----------------
+io = require('socket.io').listen(server); // OK
+// Fin HTTPS ------------
 
 
 // ------ Partie Websocket ------------------
@@ -260,10 +303,14 @@ io.on('connection', function(socket, pseudo) {
     // Robot >> Pilote: Offre des cams/micros disponibles coté robot
     socket.on('remoteListDevices', function(data) {
         console.log("@ remoteListDevices >>>> ");
+        /*
         socket.broadcast.emit('remoteListDevices', {
             objUser: data.objUser,
             listeDevices: data.listeDevices
         });
+        /**/
+        socket.broadcast.emit('remoteListDevices', data);
+
     });
 
     // Pilote >> Robot: cams/micros sélectionnés par le Pilote

@@ -27,31 +27,147 @@ if (type == "pilote-appelant") {
 // Liste des sources cam/micro
 listeLocalSources = {};
 listeRemoteSources = {};
-// flag d'origine des listes (local/remote)
-origin = null;
-/**/
+exportMediaDevices = [];
 
-// Génération des listes de sélection sources (cam/micro) 
-// disponibles localement et a distance
-function gotSources(sourceInfos) {
 
-    console.log("* gotSources()" + tools.humanDateER(""));
-    //console.log(sourceInfos);
+// Récupération de la liste des devices (Version2)
+// Voir: https://www.chromestatus.com/feature/4765305641369600
+// MediaStreamTrack.getSources(gotSources) utilisée jusqu'a présent n'est implémentée que dans Chrome.
+// La page https://developers.google.com/web/updates/2015/10/media-devices indique qu'à partir de la version 47
+// sont implémentées de nouvelles méthodes crossBrowser: navigator.mediaDevices.enumerateDevices().
+// Je passe donc par cette méthode passerelle getAllAudioVideoDevices() qui switche entre les 2 méthodes
+// selon les implémentation du navigateur.
+// Adapté de  http://stackoverflow.com/questions/14610945/how-to-choose-input-video-device-for-webrtc
+function getAllAudioVideoDevices(successCallback, failureCallback) {
+
+    var allMdiaDevices = [];
+    var allAudioDevices = [];
+    var allVideoDevices = [];
+
+    var audioInputDevices = [];
+    var audioOutputDevices = [];
+    var videoInputDevices = [];
+    var videoOutputDevices = [];
+
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        // Firefox 38+, Microsoft Edge, and Chrome 44+ seems having support of enumerateDevices
+        navigator.enumerateDevices = function(callback) {
+            navigator.mediaDevices.enumerateDevices().then(callback);
+        };
+    }
+
+    else if (!navigator.enumerateDevices && window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
+        navigator.enumerateDevices = window.MediaStreamTrack.getSources.bind(window.MediaStreamTrack);
+    }
+
+    else {
+        failureCallback(null, 'Neither navigator.mediaDevices.enumerateDevices navigator MediaStreamTrack.getSources are available.');
+        return;
+    }
+
+    var allMdiaDevices = [];
+    var allAudioDevices = [];
+    var allVideoDevices = [];
+
+    var audioInputDevices = [];
+    var audioOutputDevices = [];
+    var videoInputDevices = [];
+    var videoOutputDevices = [];
+
+    navigator.enumerateDevices(function(devices) {
+        devices.forEach(function(_device) {
+            var device = {};
+            for (var d in _device) {
+                device[d] = _device[d];
+            }
+
+            // make sure that we are not fetching duplicate devics
+            var skip;
+            allMdiaDevices.forEach(function(d) {
+                if (d.id === device.id) {
+                    skip = true;
+                }
+            });
+
+            if (skip) {
+                return;
+            }
+
+            // if it is MediaStreamTrack.getSources
+            if (device.kind === 'audio') {
+                device.kind = 'audioinput';
+            }
+
+            if (device.kind === 'video') {
+                device.kind = 'videoinput';
+            }
+
+            if (!device.deviceId) {
+                device.deviceId = device.id;
+            }
+
+            if (!device.id) {
+                device.id = device.deviceId;
+            }
+
+            if (!device.label) {
+                device.label = 'Please invoke getUserMedia once.';
+            }
+
+            if (device.kind === 'audioinput' || device.kind === 'audio') {
+                audioInputDevices.push(device);
+            }
+
+            if (device.kind === 'audiooutput') {
+                audioOutputDevices.push(device);
+            }
+
+            if (device.kind === 'videoinput' || device.kind === 'video') {
+                videoInputDevices.push(device);
+            }
+
+            if (device.kind.indexOf('audio') !== -1) {
+                allAudioDevices.push(device);
+            }
+
+            if (device.kind.indexOf('video') !== -1) {
+                allVideoDevices.push(device);
+            }
+
+            // there is no 'videoouput' in the spec.
+            // so videoOutputDevices will always be [empty]
+
+            allMdiaDevices.push(device);
+        });
+
+        if (successCallback) {
+            successCallback({
+                allMdiaDevices: allMdiaDevices,
+                allVideoDevices: allVideoDevices,
+                allAudioDevices: allAudioDevices,
+                videoInputDevices: videoInputDevices,
+                audioInputDevices: audioInputDevices,
+                audioOutputDevices: audioOutputDevices
+            });
+        }
+    });
+}
+
+// Affectation et traitement des résultats générées par getAllAudioVideoDevices()
+function populateListDevices(result,sourceDevices) {
 
     // Si sources locales (pilote)
-    if (origin == "local") {
-        listeLocalSources = sourceInfos;
-
-        // Si sources distantes (Robot)
-    } else if (origin == "remote") {
-        listeRemoteSources = sourceInfos;
-
+    if (sourceDevices == "local") {
+        listeLocalSources = result;
+    // Si sources distantes (Robot)
+    } else if (sourceDevices == "remote") {
+        listeRemoteSources = result;
     }
 
     // BUG: Double affichage des options remoteDevices en cas de déco/reco du Robot.
     // FIX ==> On vide la liste du formulaire de ses options.
     // Comment ==> En supprimant tous les enfants du nœud
-    if (origin == "remote") {
+    if (sourceDevices == "remote") {
         // On supprime tous les enfants du noeud précédent...
         while (remote_AudioSelect.firstChild) {
             // La liste n'étant pas une copie, elle sera réindexée à chaque appel
@@ -63,64 +179,83 @@ function gotSources(sourceInfos) {
         }
     }
 
-    for (var i = 0; i !== sourceInfos.length; ++i) {
+    
+    
+    
+    if (sourceDevices == "remote") {
 
-        var sourceInfo = sourceInfos[i];
-        var option = document.createElement('option');
-        option.id = sourceInfo.id;
-        option.value = sourceInfo.id;
+        result.forEach(function(sourceInfo) {
+            populateFormDevices(sourceInfo,sourceDevices)
+        });
+    
 
-        // Reconstruction de l'objet javascript natif sourceInfo:
-        // Quand il est construit sous chromium et transmit par websocket
-        // vers Chrome impossible d'accéder à ses attributs une foi transmit... 
-        // Ce qui est bizarre, c'est que l'objet natif semble tout à fait normal avant transmission.
-        // Par contre, R.A.S quand on le transmet de Chrome à Chrome ou de Chromium à chromium.
-        var sourceDevice = new tools.sourceDevice();
-        sourceDevice.id = sourceInfo.id;
-        sourceDevice.label = sourceInfo.label;
-        sourceDevice.kind = sourceInfo.kind;
-        sourceDevice.facing = sourceInfo.facing;
-        sourceInfos[i] = sourceDevice;
+    } else if (sourceDevices == "local") {
 
-        // Conflit webcam Chromium/Chrome si même device choisi sur le PC local
-        // >>> L'ID fournie par L'API MediaStreamTrack.getSources est différente
-        // selon le navigateur et ne permet pas de différencier cams et micros correctement
-        // TODO: Trouver une solution de contournement pour les tests interNavigateurs sur une même machine
+        var countEatch = 0;
+        result.allMdiaDevices.forEach(function(sourceInfo) {
 
-        if (sourceInfo.kind === 'audio') {
+            populateFormDevices(sourceInfo,sourceDevices)
 
-            if (origin == "local") {
-                option.text = sourceInfo.label || 'localMicro ' + (local_AudioSelect.length + 1) + ' (ID:' + sourceInfo.id + ')';
-                local_AudioSelect.appendChild(option);
+            // BUG: Quand il sont construit sous chrome V47 les objets javascript natif "device" 
+            // retournés par navigator.mediaDevices.enumerateDevices() sont impossible à sérialiser 
+            // ils plantent sur 'JSON.stringify(...)' bien qu'on puisse leur faire un 'JSON.parse(...)'.
+            // Quand on les envoie par websocket, ca provoque systématiquement un "illegal invoke" ds socket.io.
+            // FIX: comme il est impossible de cloner proprement l'objet, il faut le reconstuire propriétés par propriétés.
+            var exportDevice = new tools.sourceDevice();
+            exportDevice.id = sourceInfo.id;
+            exportDevice.label = sourceInfo.label;
+            exportDevice.kind = sourceInfo.kind;
+            exportDevice.facing = sourceInfo.facing;
+            exportMediaDevices[countEatch] = exportDevice;
+            countEatch ++;
 
-            } else if (origin == "remote") {
-                option.text = sourceInfo.label || 'RemoteMicro ' + (remote_AudioSelect.length + 1) + ' (ID:' + sourceInfo.id + ')';
-                remote_AudioSelect.appendChild(option);
-            }
+        });
 
-
-        } else if (sourceInfo.kind === 'video') {
-
-            if (origin == "local") {
-                option.text = sourceInfo.label || 'localCam ' + (local_VideoSelect.length + 1) + ' (ID:' + sourceInfo.id + ')';
-                local_VideoSelect.appendChild(option);
-
-            } else if (origin == "remote") {
-                option.text = sourceInfo.label || 'RemoteCam ' + (remote_VideoSelect.length + 1) + ' (ID:' + sourceInfo.id + ')';
-                remote_VideoSelect.appendChild(option);
-            }
-
-        } else {
-
-            console.log('Some other kind of source: ', sourceInfo);
-
-        }
-    }
-
+        if (type == "robot-typeB") socket.emit('remoteListDevices', {listeDevices: exportMediaDevices}); 
+    
+    } 
+    
     // On fait un RAZ du flag d'origine
-    origin = null;
+    sourceDevices = null;
 }
-/**/
+
+// Génération des listes de devices pour les formulaires
+function populateFormDevices(device,sourceDevices) {
+
+    var option = document.createElement('option');
+    option.id = device.id;
+    option.value = device.id;
+
+    if (device.kind === 'audioinput' || device.kind === 'audio') {
+
+        if (sourceDevices == "local") {
+            option.text = device.label || 'localMicro ' + (local_AudioSelect.length + 1) + ' (ID:' + device.id + ')';
+            local_AudioSelect.appendChild(option);
+
+        } else if (sourceDevices == "remote") {
+            option.text = device.label || 'RemoteMicro ' + (remote_AudioSelect.length + 1) + ' (ID:' + device.id + ')';
+            remote_AudioSelect.appendChild(option);
+        } 
+
+
+    } else if (device.kind === 'videoinput'|| device.kind === 'video') {
+
+        if (sourceDevices == "local") {
+            option.text = device.label || 'localCam ' + (local_VideoSelect.length + 1) + ' (ID:' + device.id + ')';
+            local_VideoSelect.appendChild(option);
+
+        } else if (sourceDevices == "remote") {
+            option.text = device.label || 'RemoteCam ' + (remote_VideoSelect.length + 1) + ' (ID:' + device.id + ')';
+            remote_VideoSelect.appendChild(option);
+        } 
+
+    } else {
+
+        console.log('Some other kind of source: ', device);
+
+    }
+}
+
 
 // IHM Pilote
 // Ouverture du premier des formulaires de selection des devices
@@ -214,15 +349,11 @@ if (type == "pilote-typeA") {
     socket.on('remoteListDevices', function(data) {
         console.log(">> socket.on('remoteListDevices',...)" + tools.humanDateER(""));
 
-        // console.log(data.listeDevices);
-        // console.log("--------------------------------------");
-
         // On renseigne  le flag d'ogigine
-        origin = "remote";
+        var origin = "remote";
 
-        // On alimente les listes de micro/caméra distantes
-        gotSources(data.listeDevices);
-
+        // On construit la listes des micro/caméra distantes
+        populateListDevices(data.listeDevices,origin);
     })
 
     // Reception du signal de fin pré-signaling
@@ -281,26 +412,24 @@ socket.on('updateUsers', function(data) {
 
     console.log(">> socket.on('updateUsers',...)" + tools.humanDateER(""));
     // On met à jour la liste locale des connectés...
-    // console.log(data);
     users = data;
-    //console.log(users);
-    //console.log(type);
 
     // si on est l'apellé  (Robot)
     // On renvoie à l'autre pair la liste de ses devices
+    
     if (type == "robot-typeB") {
-        socket.emit('remoteListDevices', {
-            objUser: localObjUser,
-            listeDevices: listeLocalSources
-        });
+
+        if ( tools.isEmpty(listeLocalSources) == false) {
+            socket.emit('remoteListDevices', {listeDevices: exportMediaDevices});
+        }
+
         // On lui envoie ensuite son etat de connexion
         robotCnxStatus = pc.iceConnectionState;
         socket.emit("robotCnxStatus", robotCnxStatus);
     }
 
     // si on est l'apellant (Pilote)
-    // ... En cas de besoin...
     if (type == "pilote-typeA") {
-        // 1 on vérifie l'état de sa propre connexion
+        // todo
     }
 })
