@@ -1,11 +1,11 @@
 (function(exports){
 
 exports.appName = function(){
-    return '1to1-basic (turn only/all)';
+    return '1to1-basic';
 };
 
 exports.appVersion = function(){
-    return '0.1.1.3';
+    return '0.1.2.0';
 };
 
 exports.appHostName = function(){

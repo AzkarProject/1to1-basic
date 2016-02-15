@@ -107,8 +107,8 @@ io = require('socket.io').listen(server); // OK
 
 // Adresse de redirection pour les connexions refusées
 var indexUrl;
-indexUrl = "http://" + ipaddress + ":" + port; // Par défaut...
-if (hostName == "azkar-Latitude-E4200") indexUrl = "http://" + dyDns; // Si machine Ubuntu && noip
+indexUrl = "https://" + ipaddress + ":" + port; // Par défaut...
+if (hostName == "azkar-Latitude-E4200") indexUrl = "https://" + dyDns; // Si machine Ubuntu && noip
 
 
 // liste des clients connectés
