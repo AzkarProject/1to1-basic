@@ -68,12 +68,12 @@ function mainSettings() {
     // >> TURN qui fonctionnait encore le 23/11/2015 sur UNICE et EDUROAM
     // server.iceServers.push({url: "turn:turn.anyfirewall.com:443?transport=tcp",credential: "webrtc",username: "webrtc"}); // HS
     // >> TURN maison - Ne fonctionne pas sous wifi unice/Eduroam
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
-    // server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
+    server.iceServers.push({"urls": "turn:134.59.130.142:3478?transport=tcp",credential: "robosoft",username: "robosoft"});
+    server.iceServers.push({"urls": "turn:134.59.130.142:3478?transport=udp",credential: "robosoft",username: "robosoft"}); 
     // On teste le serveur RESTUND (en basique (sans authentification))
     
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"}); // RESTUND sur VM2
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); // RESTUND sur VM2
+    //server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp"}); // RESTUND sur VM2
+    //server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp"}); // RESTUND sur VM2
     
     // server.iceServers.push({url: "turn:5.196.67.153:3478?transport=tcp"}); // RESTUND chez Hugo (OVH)
     // server.iceServers.push({url: "turn:5.196.67.153:3478?transport=udp"}); // RESTUND chez Hugo (OVH)

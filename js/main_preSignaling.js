@@ -40,6 +40,8 @@ exportMediaDevices = [];
 // Adapté de  http://stackoverflow.com/questions/14610945/how-to-choose-input-video-device-for-webrtc
 function getAllAudioVideoDevices(successCallback, failureCallback) {
 
+    console.log("getAllAudioVideoDevices()");
+
     var allMdiaDevices = [];
     var allAudioDevices = [];
     var allVideoDevices = [];
@@ -50,6 +52,7 @@ function getAllAudioVideoDevices(successCallback, failureCallback) {
     var videoOutputDevices = [];
 
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        
         // Firefox 38+, Microsoft Edge, and Chrome 44+ seems having support of enumerateDevices
         navigator.enumerateDevices = function(callback) {
             navigator.mediaDevices.enumerateDevices().then(callback);
@@ -110,9 +113,11 @@ function getAllAudioVideoDevices(successCallback, failureCallback) {
                 device.id = device.deviceId;
             }
 
+            /*
             if (!device.label) {
                 device.label = 'Please invoke getUserMedia once.';
             }
+            /**/
 
             if (device.kind === 'audioinput' || device.kind === 'audio') {
                 audioInputDevices.push(device);
@@ -155,6 +160,8 @@ function getAllAudioVideoDevices(successCallback, failureCallback) {
 
 // Affectation et traitement des résultats générées par getAllAudioVideoDevices()
 function populateListDevices(result,sourceDevices) {
+    console.log("populateListDevices()");
+    console.log(result);
 
     // Si sources locales (pilote)
     if (sourceDevices == "local") {
@@ -217,14 +224,20 @@ function populateListDevices(result,sourceDevices) {
     
     // On fait un RAZ du flag d'origine
     sourceDevices = null;
+
+
 }
 
 // Génération des listes de devices pour les formulaires
 function populateFormDevices(device,sourceDevices) {
 
+    console.log("populateFormDevices()");
+    console.log(device);
+
     var option = document.createElement('option');
     option.id = device.id;
     option.value = device.id;
+    console.log (option)
 
     if (device.kind === 'audioinput' || device.kind === 'audio') {
 

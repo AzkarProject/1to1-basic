@@ -25,6 +25,9 @@ exports.sourceDevice = function sourcedevice (id,kind,label,facing){
 }
 
 
+
+
+
 // Objet client ( Robot, Pilote, Visiteur, Patient, ect... )
 exports.client = function client (id,pseudo,placeliste,typeClient,connectionDate,disConnectionDate){
   this.id = id;
