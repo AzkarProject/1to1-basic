@@ -90,8 +90,8 @@ function mainSettings() {
     var username = "titi";
     var credential = "leterrible";
     //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
-    server.iceServers.push({url: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
 
 
 
@@ -186,7 +186,8 @@ var origin = "local"; // On prévient la fonction apellée que la source sera lo
 getAllAudioVideoDevices(function(result) {
     populateListDevices(result,origin);
 }, function(error) {
-    alert("toto");
+    if (error == null) error = "erreur getAllAudioVideoDevices()";
+    alert(error);
 });
 
 // ---- Phase 2 Signaling --------------------------------------------------
