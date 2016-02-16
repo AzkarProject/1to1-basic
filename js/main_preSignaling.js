@@ -161,7 +161,7 @@ function getAllAudioVideoDevices(successCallback, failureCallback) {
 // Affectation et traitement des résultats générées par getAllAudioVideoDevices()
 function populateListDevices(result,sourceDevices) {
     console.log("populateListDevices()");
-    console.log(result);
+    // console.log(result);
 
     // Si sources locales (pilote)
     if (sourceDevices == "local") {
@@ -232,7 +232,7 @@ function populateListDevices(result,sourceDevices) {
 function populateFormDevices(device,sourceDevices) {
 
     console.log("populateFormDevices()");
-    console.log(device);
+   // console.log(device);
 
     var option = document.createElement('option');
     option.id = device.id;
