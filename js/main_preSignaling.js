@@ -237,7 +237,7 @@ function populateFormDevices(device,sourceDevices) {
     var option = document.createElement('option');
     option.id = device.id;
     option.value = device.id;
-    console.log (option)
+    // console.log (option)
 
     if (device.kind === 'audioinput' || device.kind === 'audio') {
 

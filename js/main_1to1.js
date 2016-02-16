@@ -89,7 +89,12 @@ function mainSettings() {
     // Test rfc5766 avec authentification
     var username = "titi";
     var credential = "leterrible";
-    server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
+    //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
+
+
+
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
