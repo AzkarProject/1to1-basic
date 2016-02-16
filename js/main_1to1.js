@@ -186,7 +186,7 @@ var origin = "local"; // On prévient la fonction apellée que la source sera lo
 getAllAudioVideoDevices(function(result) {
     populateListDevices(result,origin);
 }, function(error) {
-    alert(error);
+    alert("toto");
 });
 
 // ---- Phase 2 Signaling --------------------------------------------------
