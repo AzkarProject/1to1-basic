@@ -102,10 +102,40 @@ function mainSettings() {
     }
     //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
     // server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
-    server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+    // server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
 
 
-
+    // server = {'iceServers': []};
+	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'azkar' ,username: 'azkar'});
+	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'pilote' ,username: 'azkar'}); // rfc5766 sur VM2
+	dataServer = null;
+	$(document).ready(function() {
+	              $.get("https://service.xirsys.com/ice",
+	                  {
+	                      ident: "azkar",
+	                      secret: "aaa8803c-d588-11e5-995c-95d016824523",
+	                      domain: "www.azkar.fr",
+	                      application: "1to1-basic",
+	                      room: "default",
+	                      secure: 1
+	                  },
+	                  function(data, status) {
+	                      // alert("Data: " + data + "nnStatus: " + status);
+	                      // console.log("Data: " + data + "nnStatus: " + status);
+	                      // console.log (data);
+	                      var resultServer = data.hasOwnProperty('d');
+	                      if (resultServer) {
+	                          dataServer = data.d;
+	                          console.log (dataServer);
+	                          console.log (server);
+	                          // On merge les deux listes de serveurs
+	                          server.iceServers = dataServer.iceServers.concat(server.iceServers);
+	                          console.log ("---------------------");
+	                          console.log (dataServer);
+	                          console.log (server);
+	                }
+	        })
+	});
 
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
