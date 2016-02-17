@@ -87,11 +87,11 @@ function mainSettings() {
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // RESTUND sur VM2
 
     // Test rfc5766 avec authentification
-    var username = "titi";
-    var credential = "leterrible";
-    //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
-    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
-    server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
+    var username = "azkar";
+    var credential = "azkar";
+    server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: "azkar" ,username: "azkar"}); // rfc5766 sur VM2
+    //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
+    //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
 
 
 
