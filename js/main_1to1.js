@@ -102,13 +102,13 @@ function mainSettings() {
     }
     //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
     // server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
-    // server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
 
 
     // server = {'iceServers': []};
 	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'azkar' ,username: 'azkar'});
 	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'pilote' ,username: 'azkar'}); // rfc5766 sur VM2
-	dataServer = null;
+	/*dataServer = null;
 	$(document).ready(function() {
 	              $.get("https://service.xirsys.com/ice",
 	                  {
@@ -136,6 +136,7 @@ function mainSettings() {
 	                }
 	        })
 	});
+	/**/
 
 
     //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
