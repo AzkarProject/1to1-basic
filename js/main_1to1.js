@@ -87,18 +87,18 @@ function mainSettings() {
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // RESTUND sur VM2
 
     // Test rfc5766 avec authentification
-    var username = "azkar";
-    var credential = "azkar";
+    TURN_username = "azkar";
+    TURN_credential = "azkar";
    // server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: "azkar" ,username: "azkar"}); // rfc5766 sur VM2
     
     // Si on est l'apellant (pilote)
     if (type === "pilote-typeA") {
-    	username = "pilote";
-    	credential = "azkar";
+    	TURN_username = "pilote";
+    	TURN_credential = "azkar";
     // Sinon si on est l'apellé (Robot)
     } else if (type === "robot-typeB") {
-    	username = "robot";
-    	credential = "azkar";
+    	TURN_username = "robot";
+    	TURN_credential = "azkar";
     }
     server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
