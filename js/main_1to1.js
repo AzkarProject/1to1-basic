@@ -91,13 +91,13 @@ function mainSettings() {
     var credential = "azkar";
    // server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: "azkar" ,username: "azkar"}); // rfc5766 sur VM2
     
-        // Si on est l'apellant (pilote)
+    // Si on est l'apellant (pilote)
     if (type === "pilote-typeA") {
-    	username = "titi";
-    	credential = "leterrible";
+    	username = "pilote";
+    	credential = "azkar";
     // Sinon si on est l'apellé (Robot)
     } else if (type === "robot-typeB") {
-    	username = "azkar";
+    	username = "robot";
     	credential = "azkar";
     }
     server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
