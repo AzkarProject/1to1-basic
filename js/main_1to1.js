@@ -101,7 +101,7 @@ function mainSettings() {
     	TURN_credential = "azkar";
     }
     //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: credential ,username: username}); // rfc5766 sur VM2
-    server.iceServers.push({urls: "turn:134.59.130.142:443",credential: credential ,username: username}); // rfc5766 sur VM2
+    server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // rfc5766 sur VM2
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // rfc5766 sur VM2
 
