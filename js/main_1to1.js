@@ -123,7 +123,7 @@ function mainSettings() {
     	TURN_username = "robot";
     	TURN_credential = "azkar";
     }
-    server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+    //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
     //server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
     // server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
 	
