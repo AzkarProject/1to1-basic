@@ -86,6 +86,29 @@ function mainSettings() {
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=tcp",credential: credential ,username: username}); // RESTUND sur VM2
     //server.iceServers.push({urls: "turn:134.59.130.142:3478?transport=udp",credential: credential ,username: username}); // RESTUND sur VM2
 
+    // A Finir ---------------------------------
+
+    // Avec TURN (sans STUN)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / all turns >>> OK !
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / anyfirewall.tcp >>> iceConnectionState > failed (main-1to1.js:241)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.tcp >>> OK !
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.udp >>> OK !
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / all turns >>> iceConnectionState > failed (main-1to1.js:241)
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) / all turns >>> iceConnectionState > failed (main-1to1.js:241)
+
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
+
+    // Avec STUN + TURN
+    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> ????
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> ????
+    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
+    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
+    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
+
+    // ----------------------------------------
+
     // Test rfc5766 avec authentification
     TURN_username = "azkar";
     TURN_credential = "azkar";
@@ -100,15 +123,12 @@ function mainSettings() {
     	TURN_username = "robot";
     	TURN_credential = "azkar";
     }
-    //server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
-    // server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
-    //server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
-
-
-    // server = {'iceServers': []};
-	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'azkar' ,username: 'azkar'});
-	// server.iceServers.push({urls: "turn:134.59.130.142:80",credential: 'pilote' ,username: 'azkar'}); // rfc5766 sur VM2
-	/*dataServer = null;
+    server.iceServers.push({urls: "turn:134.59.130.142:3478",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+    //server.iceServers.push({urls: "turn:134.59.130.142:443",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+    // server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
+	
+    // API de Xirsys.com
+	dataServer = null;
 	$(document).ready(function() {
 	              $.get("https://service.xirsys.com/ice",
 	                  {
@@ -139,44 +159,11 @@ function mainSettings() {
 	/**/
 
 
-    //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tcp",credential: "webrtc",username: "webrtc"});
-    //server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=udp",credential: "webrtc",username: "webrtc"});
-    // server.iceServers.push({url: "turn:turn.anyfirewall.com:3478?transport=tls",credential: "webrtc",username: "webrtc"});
-    
-
-    // Avec TURN (sans STUN)
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / all turns >>> OK !
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / anyfirewall.tcp >>> iceConnectionState > failed (main-1to1.js:241)
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.tcp >>> OK !
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / sparks.udp >>> OK !
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / all turns >>> iceConnectionState > failed (main-1to1.js:241)
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) / all turns >>> iceConnectionState > failed (main-1to1.js:241)
-
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
-    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
-    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
-
-    // Avec STUN + TURN
-    // >>> DDNS / Azcary(Filaire-I3S) <> Asus(Wifi-DomLivebox) / >>> ????
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Eduroam) / >>> ????
-    // >>> DDNS / Azcary(Filaire-I3S) <> Thaby(Unice) />>> ??? 
-    // >>> DDNS / Surface(Unice) <> Thaby(Eduroam) / >>> ???
-    // >>> DDNS / Surface(Eduroam) <> Thaby(Unice) />>> ??? 
-
-
-
-
-
-
-
-
     /*
     options = {
-        optional: [{
-                DtlsSrtpKeyAgreement: true
-            }, {
-                RtpDataChannels: true
-            } 
+        optional: [
+        	{DtlsSrtpKeyAgreement: true}, 
+        	{RtpDataChannels: true }// >>> BUG de récéssion à partir de Chrome 46..
         ]
     }
     /**/
