@@ -1,6 +1,8 @@
-// Script inspiré de l'article suivant:
+// Auteur: Thierry
+// Sources originales:
 // https://developer.mozilla.org/fr/docs/Web/Guide/API/WebRTC/WebRTC_basics
-// Source github : https://github.com/louisstow/WebRTC/blob/master/media.html
+// https://github.com/louisstow/WebRTC/blob/master/media.html
+// ------------------------------------------------------------------------------------------------------------------
 
 // Initialisation des variables, objets et paramètres du script
 // NB toutes les variables sont déclarées en global...
@@ -128,6 +130,7 @@ function mainSettings() {
     // server.iceServers.push({urls: "turn:134.59.130.142:80",credential: TURN_credential ,username: TURN_username}); // rfc5766 sur VM2
 	
     // API de Xirsys.com
+    // Source: Xirsys.com
 	dataServer = null;
 	$(document).ready(function() {
 	              $.get("https://service.xirsys.com/ice",
@@ -349,7 +352,26 @@ function connect() {
                 pc.setLocalDescription(sdp);
                 console.log ("------------ Send Offer >>> "+tools.humanDateER(""));
                 //var data = {from: localObjUser, message: sdp}
-                // console.log (data.message.sdp);
+                
+                // BUG > Robot(Chrome44) <> Pilote(Chrome51)
+                // Error on Robot Client: 
+                // -----------------------
+                // >>> Uncaught (in promise) Failed to set remote offer sdp: 
+                // >>> Session error code: ERROR_CONTENT. Session error description: Failed to set video send codecs..
+                // >>> CreateAnswer can't be called before SetRemoteDescription.
+                // ------------------------
+                // Par contre si Pilote(Chrome44) <> Robot(Chrome51) > OK !
+
+                /*// Tentative d'overWrite des codecs du l'offre sdp: Echec !!!
+                // m=video 9 UDP/TLS/RTP/SAVPF 100 101 116 117 96 97 98 (Chrome 51)
+                var stringCodecChrome51 = "m=video 9 UDP/TLS/RTP/SAVPF 100 101 116 117 96 97 98";
+                // m=video 9 RTP/SAVPF 100 116 117 96 (Chrome 44)
+                var stringCodecChrome44 = "m=video 9 RTP/SAVPF 100 116 117 96";
+                sdp.sdp = sdp.sdp.replace(stringCodecChrome51,stringCodecChrome44);
+                console.log (sdp.sdp);
+                /**/
+
+
                 socket.emit("offer", sdp);
             }
             , errorHandler, 
