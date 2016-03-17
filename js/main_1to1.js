@@ -512,11 +512,11 @@ function bindEvents() {
 
     // écouteur de reception message
     channel.onmessage = function(e) {
-        var dateR = Date.now();
-        console.log("@ channel.onmessage() "+tools.humanDateER(""));
+        var dateR = tools.humanDateER("");
+        console.log("@ channel.onmessage() "+dateR);
         // si c'est un message de type string
         if (tools.isJson(e.data) == false) {
-            $(chatlog).prepend(+tools.humanDateER("") + ' ' + e.data + "\n");
+            $(chatlog).prepend(dateR+ ' ' + e.data + "\n");
         }
     };
 }
@@ -524,12 +524,12 @@ function bindEvents() {
 // envoi message par WebRTC
 function sendMessage() {
     console.log("* sendMessage() "+tools.humanDateER(""));
-    var dateE = tools.dateER('E');
-    var msgToSend = dateE + ' [' + localObjUser.typeClient + '] ' + message.value;
+    var dateE = tools.humanDateER("");
+    var msgToSend = ' [' + localObjUser.typeClient + '] ' + message.value;
     channel.send(msgToSend);
     message.value = "";
     // Affiche le message dans le chatlog websocket
-    $(chatlog).prepend(msgToSend + "\n");
+    $(chatlog).prepend(dateE+" "+msgToSend + "\n");
 }
 
 
@@ -556,9 +556,15 @@ function alertAndRedirect(message, url) {
 
 // Pour débugg:
 video1.addEventListener("playing", function () {
-    console.log ("LocalStream: " + video1.videoWidth + "x" + video1.videoHeight)
+    var dateR = tools.humanDateER("");
+    var LocalStreamDef = "LocalStream: " + video1.videoWidth + "x" + video1.videoHeight
+    console.log (LocalStreamDef)
+    $(chatlog).prepend(dateR + ' ' + LocalStreamDef + "\n");
 });
 
 video2.addEventListener("playing", function () {
-    console.log ("RemoteStream: " + video2.videoWidth + "x" + video2.videoHeight)
+    var dateR = tools.humanDateER("");
+    var RemoteStreamDef = "RemoteStream: " + video1.videoWidth + "x" + video1.videoHeight
+    console.log (RemoteStreamDef)
+    $(chatlog).prepend(dateR + ' ' + RemoteStreamDef + "\n");
 });

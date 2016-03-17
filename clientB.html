@@ -22,7 +22,8 @@
 		
 		<section id="bloc_1to1_messages" class="fullSizeContainerBox">
 				
-			<div id="websocketChat" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox">  
+			<!--<div id="websocketChat" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox"> -->
+			<div  id="websocketChat"  class="floatLeft oneQuarterContainerBox insideFlex robot shadowBlack"> 
 				
 			    <form action="/" method="post" id="formulaire_chat_websoket" style="text-align:center" >
 			        <strong>Websocket Chat & Logs&nbsp;</strong>
@@ -38,8 +39,8 @@
         		</form>
 			</div>
 
-      		<div id="dataChannelArea" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox"> 
-			        
+      		<!--<div id="dataChannelArea" class="insideFlex robot shadowBlack floatLeft doubleQuarterBox"> -->
+			<div  id="dataChannelArea"  class="floatLeft oneQuarterContainerBox insideFlex robot shadowBlack">         
 			   <div id="formulaire_chat_webRTC" class="pseudoForm" style="text-align:center">
 			        <strong>WebRTC Chat & Logs&nbsp;</strong>
 		            <input type="text" name="message" id="input_chat_WebRTC" disabled placeholder="Waiting open channel..." size="28" autofocus />
@@ -64,8 +65,8 @@
 
 		<section id="bloc_1toN" class="fullSizeContainerBox">
 			
-			<div  class="floatLeft oneQuarterContainerBox">
-				<div id="piloteCam" class="insideFlex pilote shadowBlack">
+			<div  class="floatLeft oneQuarterContainerBox insideFlex robot shadowBlack">
+				<div id="piloteCam" class="">
 				    <strong> Pilot Camera</strong>
 				    <hr/>
 				    <video id='otherPeer' autoplay muted controls="controls" ></video>
@@ -73,8 +74,8 @@
 			</div>
 		
 
-			<div  class="floatLeft oneQuarterContainerBox">
-				<div id="robotCam" class="insideFlex robot shadowBlack">
+			<div  class="floatLeft oneQuarterContainerBox insideFlex robot shadowBlack">
+				<div id="robotCam" class="">
 				    <strong> Robot Camera</strong>
 				    <hr/>
 				    <video id='video' autoplay muted controls="controls"></video>
@@ -87,7 +88,7 @@
 		<section id="bloc_1to1_settings" class="fullSizeContainerBox">
 
 
-				<div id="selectionMicros" class="insideFlex robot shadowBlack floatLeft oneThirdContainerBox"> 
+				<div id="selectionMicros" class="insideFlex robot shadowBlack floatLeft oneQuarterContainerBox"> 
 				  	<span id="messageDevicesStateMicro"> Micros disponibles</span>
 					<hr/>
 					<div class="select">
@@ -96,7 +97,7 @@
 				</div>	
 
 
-				<div id="selectionCams" class="insideFlex robot shadowBlack floatLeft oneThirdContainerBox"> 
+				<div id="selectionCams" class="insideFlex robot shadowBlack floatLeft oneQuarterContainerBox"> 
 				  	<span id="messageDevicesStateCams"> Caméras disponibles</span>
 					<hr/>
 					<div class="select">

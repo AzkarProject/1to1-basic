@@ -125,7 +125,7 @@ form {margin-bottom: 9px;}
 .ihmPilote #robotCommands {height: 202px;}
 .ihmPilote #robotInfos {}
 .ihmPilote #websocketChat {height:290px}
-.ihmPilote #remoteVideoArea {height:640px;}
+/*.ihmPilote #remoteVideoArea {height:640px;}*/
 .ihmPilote #remoteCanvasArea {}
 .ihmPilote #dataChannelArea {}
 
