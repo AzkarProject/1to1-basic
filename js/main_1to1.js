@@ -553,3 +553,12 @@ function alertAndRedirect(message, url) {
     window.alert(message)
     window.location.href = url;
 }
+
+// Pour débugg:
+video1.addEventListener("playing", function () {
+    console.log ("LocalStream: " + video1.videoWidth + "x" + video1.videoHeight)
+});
+
+video2.addEventListener("playing", function () {
+    console.log ("RemoteStream: " + video2.videoWidth + "x" + video2.videoHeight)
+});
